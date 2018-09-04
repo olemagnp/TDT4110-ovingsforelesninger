@@ -47,7 +47,7 @@
   \frametitle{Litt om meg}
   \begin{itemize}
   	\item Ole-Magnus Pedersen
-  	\item  4. klasse datateknologi
+  	\item  5. klasse datateknologi
   	\item Vitass i TDT4110
   \end{itemize}
 \end{frame}
@@ -165,7 +165,7 @@
 		\item Lite teori
 		\item Fokus på programmering
 		\begin{itemize}
-			\item Ta med egen PC!
+			\item Ta med egen PC (med fullt batteri)!
 		\end{itemize}
 	\end{itemize}
 \end{frame}
@@ -198,10 +198,10 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Studentassistener (aka. studass)}
+	\frametitle{Studentassistener/Læringsassistenter (aka. studass)}
 	\begin{itemize}
 		\item Studass er ikke bare på sal for å godkjenne
-		\item Planlegg gjerne å jobbe med øvingen på sal til saltider
+		\item Planlegg gjerne å jobbe med øvingen på sal til saltider (gruppeveiledning)
 		\item Det er mer travelt de siste timene før fristen
 		\begin{itemize}
 			\item Bør være klar for innlevering på dette tidspunktet
@@ -283,7 +283,7 @@
 	\begin{itemize}
 		\item \emph{Syntaks} er læren om hvordan ord settes sammen til større enheter
 		\item Man må vite hvilke verktøy som finnes når en skal løse et problem
-		\item Mer og mer vil bli introdusert i programmeringsforelesninger
+		\item Vi starter med enkle ''ord'', mer og mer vil bli introdusert i programmeringsforelesninger
 	\end{itemize}
 \end{frame}
 
@@ -323,6 +323,7 @@
 						\item \lstinline|4 - 6 / 3 - 2 = ?|
 						\item \lstinline|(4 - 6) / (3 - 2) = ?|
 						\item \lstinline|4 * (2 / 4) = ?|
+						\item \lstinline|5 * - 3 = ?|
 					}
 					\only<2->{
 						\item \lstinline|4 + 3 * 2 = 10|
@@ -330,6 +331,7 @@
 						\item \lstinline|4 - 6 / 3 - 2 = 0|
 						\item \lstinline|(4 - 6) / (3 - 2) = -2|
 						\item \lstinline|4 * (2 / 4) = 2|
+						\item \lstinline|5 * - 3 = -15|
 					}
 				\end{itemize}
 			\end{itemize}
@@ -355,15 +357,11 @@
 \begin{frame}{Oppgaver}
 	\begin{itemize}
 		\item Start opp Python
-	\end{itemize}
-	\vspace{1em}
-	\begin{itemize}
-		\onslide<2>{
-			\item Hva tilsvarer 80 grader celsius i farenheit?
-			\begin{itemize}
-				\item $F = \frac{9}{5} \cdot Celsius + 32$
-			\end{itemize}
-		}
+		\vspace{1em}
+		\item Hva tilsvarer 80 grader celsius i farenheit?
+		\begin{itemize}
+			\item $F = \frac{9}{5} \cdot Celsius + 32$
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
@@ -404,40 +402,59 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Variabler}
+\begin{frame}[fragile]{Variabler}
 	\begin{itemize}
 		\item En variabel er en navngitt plass i minnet, hvor man kan lagre en verdi
 		\item Kan slå opp verdien ved å skrive navnet
 		\item Kan senere endre verdien
+		\item Parallell til matte
 	\end{itemize}
+	
+	\begin{columns}
+		\begin{column}{.3\textwidth}
+			\begin{gather*}
+				x = 123\\
+				y = 2^x
+			\end{gather*}
+		\end{column}
+		\begin{column}{.7\textwidth}
+			\begin{lstlisting}
+x = 123
+y = 2 ** x
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+	
 \end{frame}
 
-\begin{frame}{Løs oppgave vha. en variabel}
-	\begin{itemize}
-		\item Regn ut arealet av en sylinder
-		\begin{itemize}
-			\item $A=2\pi rh + 2\pi r^2$
-		\end{itemize}
-		\item Hint: Lagre en variabel \emph{pi} med verdi $3.14$
-		\item Oppgave: Regn ut areal for en sylinder med radius = 3 og høyde = 7
-	\end{itemize}
+\begin{frame}[fragile]{Løs oppgave vha. en variabel}
+	\begin{columns}
+		\begin{column}{.5\textwidth}
+			\begin{itemize}
+				\item Regn ut arealet av en sylinder
+				\begin{itemize}
+					\item $A=2\pi rh + 2\pi r^2$
+				\end{itemize}
+				\item Hint: Lagre en variabel \emph{pi} med verdi $3.14$
+				\item Oppgave: Regn ut areal for en sylinder med radius = 3 og høyde = 7
+			\end{itemize}
+		\end{column}
+	\hspace{-20pt}\vrule\hspace{20pt}
+		\begin{column}{.4\textwidth}
+			{\large\bfseries Ekstra}
+			\begin{itemize}
+				\item Utvid programmet til å bruke to ekstra variabler, en for radius og en for høyde
+				\item Regn ut areal for sylindre med:
+				\begin{enumerate}
+					\item $r=3, h=7$
+					\item $r=1, h=8$
+					\item $r=3, h=2$
+				\end{enumerate}
+			\end{itemize}
+		\end{column}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{Løs oppgave vha. en variabel}
-	\begin{itemize}
-		\item Regn ut arealet av en sylinder
-		\begin{itemize}
-			\item $A=2\pi rh + 2\pi r^2$
-		\end{itemize}
-		\item Oppgave: Regn ut areal for sylindre med:
-		\begin{enumerate}
-			\item $r=3, h=7$
-			\item $r=1, h=8$
-			\item $r=3, h=2$
-		\end{enumerate}
-		\item Bruk to ekstra variabler, \emph{r} og \emph{h}
-	\end{itemize}
-\end{frame}
 
 \begin{frame}{Variabeltyper}
 	\begin{itemize}
@@ -508,7 +525,14 @@ print("Dette er ikke en kommentar")
 		\item Lagre inputten i en variabel
 		\item Print så: <Lagret navn> har laget dette programmet
 		\vspace{1em}
-		\item Hint: \lstinline|print(f"Tekst {variabel1} mer tekst {variabel2}...")|
+		\item Hint: \lstinline|print(f"Tekst {variabel1} mer tekst {variabel2} ...")|
+		\begin{itemize}
+			\item For eldre versjoner av Python:
+			\begin{itemize}
+				\item  \lstinline|print("Tekst", variabel1, "mer tekst", variabel2, "...")|
+				\item \lstinline|print("Tekst " + variabel1 + " mer tekst " + variabel2 + " ...")| (Hvis variablene er strenger)
+			\end{itemize}
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
