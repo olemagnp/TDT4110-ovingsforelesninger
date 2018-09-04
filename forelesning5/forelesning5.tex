@@ -1,0 +1,484 @@
+\documentclass[screen, aspectratio=169]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz, environ, color}
+\usepackage{listings}
+\usepackage{graphicx}
+
+% Use the NTNU-temaet for beamer 
+% \usetheme[style=ntnu|simple|vertical|horizontal, 
+%     language=bm|nn|en, 
+%     smalltitle, 
+%     city=all|trondheim|alesund|gjovik]{ntnu2017}
+\usetheme[style=horizontal,language=bm]{ntnu2015}
+
+\definecolor{input-color}{HTML}{f58025}
+\definecolor{comment-color}{HTML}{5cbec9}
+\input{../lstStyle.tex}
+\lstset{language=Python}
+
+\usepackage[norsk]{babel}
+
+\title[Short title]{Øvingsforelesning 5 Python (TDT4110)}
+\subtitle{Repetisjon av løkker og funksjoner}
+\author[O.M. Pedersen]{Ole-Magnus Pedersen}
+\institute[NTNU]{}
+\date{}
+%\date{} % To have an empty date
+
+\NewEnviron{transparent}{
+	\tikz\node[opacity=0.2,align=left,inner xsep=0]{\parbox[t]{\linewidth}{
+			\BODY
+		}};
+	}
+
+\hypersetup{
+	colorlinks,
+	urlcolor={blue!70!black}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Alternatively, special title page command to get a different background
+% \ntnutitlepage
+
+\begin{frame}{Oversikt}
+  \begin{itemize}
+  	\item Praktisk Info
+  	\begin{transparent}
+  		\item Gjennomgang av Øving 3
+  		\item Repetisjon
+  	\end{transparent}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Praktisk info}
+	\begin{itemize}
+		\item Prosjekter i PyCharm må startes med Python 3.x
+		\item Idle på mac:
+		\begin{itemize}
+			\item Installer ny versjon av Tcl (for eksempel ActiveTcl, som omtalt \href{https://www.python.org/download/mac/tcltk/}{her})
+			\item Problemer med backslash (løsning fra \href{https://stackoverflow.com/questions/4798930/how-do-i-make-backslash-work-in-idle}{StackOverflow}):
+			\begin{itemize}
+				\item \emph{Preferences $\rightarrow$ Keys}
+				\item Under \emph{Custom Key Bindings}, finn \emph{expand-word}
+				\item Endre kombinasjonen til noe annet (f.eks. Control-Option-Key-Slash)
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+{ % all template changes are local to this group.
+	\setbeamertemplate{navigation symbols}{}
+	\begin{frame}[plain]
+		\begin{tikzpicture}[remember picture,overlay]
+		\node[at=(current page.center)] {
+			\includegraphics[page=1, width=\paperwidth]{QueueMePresentasjonPP.pdf}
+		};
+		\end{tikzpicture}
+	\end{frame}
+	\begin{frame}[plain]
+		\begin{tikzpicture}[remember picture,overlay]
+		\node[at=(current page.center)] {
+			\includegraphics[page=2, width=\paperwidth]{QueueMePresentasjonPP.pdf}
+		};
+		\end{tikzpicture}
+	\end{frame}
+	\begin{frame}[plain]
+		\begin{tikzpicture}[remember picture,overlay]
+		\node[at=(current page.center)] {
+			\includegraphics[page=3, width=\paperwidth]{QueueMePresentasjonPP.pdf}
+		};
+		\end{tikzpicture}
+	\end{frame}
+}
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+			\item Praktisk Info
+		\end{transparent}
+		\item Gjennomgang av Øving 3
+		\begin{transparent}
+			\item Repetisjon
+		\end{transparent}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Gjennomgang av Øving 3}
+	\begin{itemize}
+		\item Alternerende sum
+		\item Doble løkker
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+			\item Praktisk Info
+			\item Gjennomgang av Øving 3
+		\end{transparent}
+		\item Repetisjon
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Variabler}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Peker på en minneplassering med data
+				\item Kan sette verdien, bruke verdien og sette verdien på nytt
+				\item Har en type (f.eks. \lstinline|int, float, boolean, str|)
+				\item NB! Må initialiseres før den brukes
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{lstlisting}
+# Dette går ikke
+if a > 5:
+	pass
+
+# Vi må initialisere a først
+a = 3
+if a > 5:
+	pass
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Betingelser og if-setninger}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Betingelser er boolske uttrykk eller variabler, og har verdi \lstinline|True| eller \lstinline|False|
+				\item Kan sammenligne variabler/konstanter med \lstinline|==, !=, >, >=, <, <=|
+				\item Spesialord som \lstinline|and, or, not, is, in|
+				\item Ved å bruke if-setninger utføres kode kun hvis betingelsen stemmer
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{lstlisting}
+if condition:
+	pass
+elif condition_2:
+	pass
+else:
+	pass
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Løkker}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Kjører koden flere ganger
+				\item For-løkker kjører et gitt antall ganger, f.eks. bestemt ved å bruke \lstinline|range()|
+				\item While-løkker kjører så lenge en betingelse er oppfylt
+				\item \lstinline|break| og \lstinline|continue| kan brukes for å avslutte enten hele løkka eller en iterasjon
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{lstlisting}
+for i in range(10):
+	pass
+
+x = 0
+while x < 10:
+	x += 1
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Løkker 1 (for-løkke)}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Lag et program som tar inn en streng ($s$) og et tall ($x$). Programmet skal skrive ut hver $x$te bokstav i $s$, fra og med den første.
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				Skriv inn en streng: \textcolor{input-color}{abcDeFGhiJKL}\\
+				Skriv inn et tall: \textcolor{input-color}{3}\\
+				\vspace{1em}
+				a\\
+				D\\
+				G\\
+				J
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Løkker 2 (while-løkke)}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Lag et program som spør om et passord fra bruker. Hvis passordet er likt et passord du bestemmer, skal brukeren få beskjed om at passordet er riktig. Hvis ikke skal programmet spørre om et nytt passord.
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				\textcolor{comment-color}{\# passordet er ''qwerty''}\\
+				Passord: \textcolor{input-color}{abcd}\\
+				Passordet er feil. Prøv igjen.\\
+				Passord: \textcolor{input-color}{qwerty}\\
+				Passordet er riktig!
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Løkker 3 (while-løkke)}
+	\begin{columns}
+		\begin{column}{.7\textwidth}
+			\begin{itemize}
+				\item Lag et program som tar inn to tall, $n$ og $k$. Programmet skal summere alle tallene fra 0 til $n$, eller fram til summen er større enn $k$. Programmet skal skrive ut ''Sum ved i=<iterasjon>: <nåværende sum>'' i hver iterasjon, og skal bruke en while-løkke.
+				\item Hvis programmet avslutter fordi $i>n$ skal programmet skrive ut ''Etter <n> iterasjoner er summen <sum>''. Ellers skal programmet skrive ut ''Etter <antall iterasjoner> overgikk summen <k>''.
+			\end{itemize}
+		\end{column}
+		\begin{column}{.3\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				n: \textcolor{input-color}{10}\\
+				k: \textcolor{input-color}{7}\\
+				Sum ved i=0: 0\\
+				Sum ved i=1: 1\\
+				Sum ved i=2: 3\\
+				Sum ved i=3: 6\\
+				Sum ved i=4: 10\\
+				Etter 5 iterasjoner overgikk summen 7.
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Løkker 4 (sammensatte løkker)}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Lag et program som tar inn et heltall fra brukeren (kalt $x$ her). Deretter skal programmet spørre brukeren om svaret på $x\times i$ for alle $i$ fra 1 til 10. Hvis brukeren svarer riktig skal programmet skrive ut det, ellers skal det spørre igjen til brukeren har riktig svar.
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				Skriv inn et tall: \textcolor{input-color}{10}\\
+				Hva er $1\times 10$? \textcolor{input-color}{10}\\
+				Riktig!\\
+				Hva er $2\times 10$? \textcolor{input-color}{21}\\
+				Prøv igjen. Hva er $2\times 10$? \textcolor{input-color}{20}\\
+				Riktig!\\
+				\ldots
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Funksjoner}
+	\begin{columns}
+		\begin{column}{.4\textwidth}
+			\begin{itemize}
+				\item Definer kode som kjøres senere i programmet
+				\item Parametre er input-verdier til funksjonen
+				\item Kan returnere en eller flere output-verdier
+			\end{itemize}
+		\end{column}
+		\begin{column}{.6\textwidth}
+			\begin{lstlisting}
+def func(param1, param2):
+	# Do something with params, here we add them and return the result
+	res = param1 + param2
+	return res
+
+# Now we can use the function multiple times
+many_adds = func(func(1, 3), func(func(2, 4), 5))
+print(many_adds) # prints the result of (1 + 3) + ((2 + 4) + 5)
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Scopes}
+	\begin{columns}
+		\begin{column}{.5\textwidth}
+			\begin{itemize}
+				\item Variabler er gjeldende ut i fra hvor de defineres
+				\item Variabler definert i en funksjon kan bare brukes i den funksjonen
+				\begin{itemize}
+					\item Overskriver også variabler med samme navn i fra utenfor funksjonen
+				\end{itemize}
+				\item Variabler definert utenfor funksjoner kan refereres i funksjoner, men man må bruke \lstinline|global|-nøkkelordet for å endre verdien
+			\end{itemize}
+		\end{column}
+		\begin{column}{.2\textwidth}
+			\begin{lstlisting}
+g = 5
+def func1():
+	g = 3
+	print(g)
+def func2(g):
+	print(g)
+def func3():
+	print(g)
+def func4():
+	global g
+	g = 2
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{.3\textwidth}
+			\begin{lstlisting}
+print(g) # 5
+func1()  # 3
+func2(4) # 4
+func3()  # 5
+print(g) # 5
+func4()
+print(g) # 2
+
+def func5():
+	h = 1
+func5()
+print(h) # Gir feilmelding
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Funksjoner 1}
+	\begin{itemize}
+		\item<+-> Utvid programmet fra \emph{Løkker 4} til å kjøre i en funksjon som tar inn $x$ som et parameter. Utvid programmet til å også ta inn $y$ som et parameter og spør om svar på $x\times i$ for alle $i$ fra 1 til $y$.
+		\item<+-> Del koden opp i to funksjoner, en som kjører for-løkka, og en som spør bruker om svaret på regnestykket (til svaret er riktig).
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Funksjoner 2}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Lag en funksjon som tar inn to strenger. Funksjonen skal returnere \lstinline|True| hvis strengene er like, eller hvis den ene strengen er lik den reverserte andre strengen.
+				\begin{itemize}
+					\item Hint: For å sjekke om strengene er reversert av hverandre kan du sjekke om de er like lange og sjekke at \lstinline|str1[i] == str2[-i - 1]| i en for-løkke fra 0 til (men ikke med) \lstinline|len(str1)|
+				\end{itemize}
+				\item Lag så et program som kontinuerlig tar inn to strenger fra brukeren, og hvis de er like eller reversert skriver ut ''Dette var en match'', og ellers skriver ut ''Dette var ikke en match''. Programmet skal avslutte hvis begge strengene er lik ''q''.
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				Str1: \textcolor{input-color}{abc}\\
+				Str2: \textcolor{input-color}{abc}\\
+				Dette var en match\\
+				Str1: \textcolor{input-color}{abc}\\
+				Str2: \textcolor{input-color}{cba}\\
+				Dette var en match\\
+				Str1: \textcolor{input-color}{abc}\\
+				Str2: \textcolor{input-color}{abcd}\\
+				Dette var ikke en match\\
+				Str1: \textcolor{input-color}{q}\\
+				Str2: \textcolor{input-color}{q}
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Funksjoner 3}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Lag et program som gjør to ting: Først spør den brukeren om et adjektiv, og skriver ut komparativ-formen av dette. Deretter ber den brukeren om å skrive inn komparativ-formen av noen adjektiv (snill, pen, ung, gammel, lik), og skriver ut om brukeren skriver inn riktig svar.
+				\item For de fleste norske adjektiv finnes komparativ ved å legge til -ere på slutten (snill - snill\emph{ere}), men programmet skal også ta hensyn til ordene ung (yngre) og gammel (eldre).
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				Skriv inn et adjektiv: \textcolor{input-color}{rik}\\
+				Komparativ av rik er: rikere\\
+				Hva er komparativ av snill? \textcolor{input-color}{snillere}\\
+				Riktig!\\
+				Hva er komparativ av pen? \textcolor{input-color}{penn}\\
+				Feil. Komparativ av pen er penere\\
+				Hva er komparativ av ung? \textcolor{input-color}{yngre}\\
+				Riktig!\\
+				\ldots
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Funksjoner 4}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Lag et program som sjekker om du kommer med på en kino. Dette er avhengig av 2 ting:
+				\begin{itemize}
+					\item Har du råd? Lag en funksjon som tar inn hvor mange penger du har, og hva biletten koster, og returnerer true om du har råd og false om du ikke har det. Anta at filmen koster 120kr
+					\item Kommer du tidsnok? Lag en funksjon som tar inn antall personer i køen, og antall minutter til filmen starter. Funksjonen skal returnere True om du kan rekke filmen. Anta at man bruker et halvt minutt per person i køen, og at det tar et minutt å gå fra køen til salen.
+				\end{itemize}
+				\item Programmet skal kontinuerlig spørre bruker om relevante tall, og si om brukeren kommer med på kinoen.
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				Hvor mye penger har du? \textcolor{input-color}{50}\\
+				Du kommer ikke med!\\
+				Hvor mye penger har du? \textcolor{input-color}{120}\\
+				Hvor lenge er det til filmen starter? \textcolor{input-color}{20}\\
+				Hvor mange er foran deg i køen? \textcolor{input-color}{35}\\
+				Du kommer med!
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Funksjoner 5}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Lag en funksjon som tar inn et tall, $n$, som parameter. Programmet skal returnere det $n$te fibonacci-tallet.
+				\begin{itemize}
+					\item Fibonacci-tallene er definert på denne måten: $f_0 = 0, f_1 = 1, f_n = f_{n-1} + f_{n-2}$
+				\end{itemize}
+				\item Bruk funksjonen i et program som tar inn to tall fra brukeren, $n$ og $x$, der $n$ er hvilket fibonacci-tall vi er interessert i og $x$ er brukerens gjettning på det $n$te fibonacci-tallet. Hvis brukeren gjetter riktig skal programmet printe ut ''Det var riktig''. Ellers skal det printe ''Feil. Det <n-te> fibonacci-tallet er <n-te fibonacci tall>''.
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{exampleblock}{Eksempel på kjøring}
+				n:\textcolor{input-color}{15}\\
+				Hva tror du det 15. fibonacci tallet er? \textcolor{input-color}{610}\\
+				Dette var riktig\\
+				\textcolor{comment-color}{\#---- ny kjøring ----}\\
+				n:\textcolor{input-color}{15}\\
+				Hva tror du det 15. fibonacci tallet er? \textcolor{input-color}{500}\\
+				Feil. Det 15. fibonacci tallet er 610
+			\end{exampleblock}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Debugging}
+	\begin{itemize}
+		\item Måten å gå fram på for å finne feil i koden
+		\item To problemstillinger:
+		\begin{itemize}
+			\item Programmet kjører ikke, og vi får en feilmelding
+			\begin{itemize}
+				\item Les feilmelding tydelig
+				\item Vi får typisk beskjed om hva som er feil, og hvor i koden feilen er
+				\item Tips: Noen ganger må vi se på linjen før eller etter det man får beskjed om
+			\end{itemize}
+			\item Programmet kjører, men gir feil resultat
+			\begin{itemize}
+				\item Logg relevante verdier flere steder i koden (i dette faget kan dere printe ut verdien)
+				\item PyCharm (eller andre IDE-er) har debuggingsverktøy der du kan stoppe koden og se verdien av variabler på det tidspunktet
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\end{document}

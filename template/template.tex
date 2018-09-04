@@ -1,0 +1,41 @@
+\documentclass[screen, aspectratio=169]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz, environ}
+
+% Use the NTNU-temaet for beamer 
+% \usetheme[style=ntnu|simple|vertical|horizontal, 
+%     language=bm|nn|en, 
+%     smalltitle, 
+%     city=all|trondheim|alesund|gjovik]{ntnu2017}
+\usetheme[style=horizontal,language=bm]{ntnu2017}
+
+\usepackage[norsk]{babel}
+
+\title[Short title]{TITLE}
+\subtitle{SUBTITLE}
+\author[O.M. Pedersen]{Ole-Magnus Pedersen}
+\institute[NTNU]{}
+\date{}
+%\date{} % To have an empty date
+
+\NewEnviron{transparent}{
+	\tikz\node[opacity=0.2,align=left,inner xsep=0]{\parbox[t]{\linewidth}{
+			\BODY
+		}};
+	}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Alternatively, special title page command to get a different background
+% \ntnutitlepage
+
+\begin{frame}{Slide 1}
+  
+\end{frame}
+
+\end{document}

@@ -1,0 +1,189 @@
+\documentclass[screen, aspectratio=169]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz, environ}
+\usepackage{listings}
+
+% Use the NTNU-temaet for beamer 
+% \usetheme[style=ntnu|simple|vertical|horizontal, 
+%     language=bm|nn|en, 
+%     smalltitle, 
+%     city=all|trondheim|alesund|gjovik]{ntnu2017}
+\usetheme[style=horizontal,language=bm]{ntnu2015}
+
+\usepackage[norsk]{babel}
+
+\input{../lstStyle.tex}
+\lstset{language=Python}
+
+\title[Short title]{Øvingsforelesning 9 i Python (TDT4110)}
+\subtitle{Dictionaries, Exception, Filhåndtering}
+\author[Ole-Magnus Pedersen]{Ole-Magnus Pedersen}
+\institute[NTNU]{}
+\date{}
+%\date{} % To have an empty date
+
+\NewEnviron{transparent}{
+	\tikz\node[opacity=0.2,align=left,inner xsep=0]{\parbox[t]{\linewidth}{
+			\BODY
+		}};
+	}
+
+\hypersetup{
+	colorlinks,
+	urlcolor={blue!70!black}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Alternatively, special title page command to get a different background
+% \ntnutitlepage
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\item Praktisk Info
+		\begin{transparent}
+			\item Gjennomgang av Øving 7
+			\item Programmering til øving 9
+		\end{transparent}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+			\item Praktisk Info
+		\end{transparent}
+		\item Gjennomgang av Øving 7
+		\begin{transparent}
+			\item Programmering til Øving 9
+		\end{transparent}
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+			\item Praktisk Info
+			\item Gjennomgang av Øving 7
+		\end{transparent}
+		\item Programmering til Øving 9
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Dictionaries}
+	\begin{columns}
+		\begin{column}{.5\textwidth}
+			\begin{itemize}
+				\item ''Liste'' med selvvalgte indekser
+				\begin{itemize}
+					\item Kan sette inn nye verdier
+					\item Hente ut eksisterende
+					\item Verdier kan ha alle typer variabler
+					\item få tak i nøkler. dict.keys()
+					\item få tak i alt dic.items() 
+					\item Legge til en annen - dict.update(dict2)
+				\end{itemize}
+				\item Sjekke om en key er i dictionary
+				\begin{itemize}
+				    \item if ''a'' in dict.keys()
+				\end{itemize}
+				\item Kan iterere gjennom alle elementer
+			\end{itemize}
+		\end{column}
+		\begin{column}{.5\textwidth}
+			\begin{lstlisting}
+dictionary = {}
+dictionary[''TDT4110''] = ''IT Grunnkurs''
+dictionary[''TDT4105''] #KeyError
+
+''TDT4110'' in dictionary.keys() #true
+
+for key, value in dictionary.items(): 
+    #Key, er alle nøklene, 
+    #Value er alle verdiene
+	print(key, '':'', value) 
+	# TDT4110 : IT Grunnkurs
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Filhåndtering}
+	\begin{columns}
+		\begin{column}{.4\textwidth}
+			\begin{itemize}
+				\item Må lukke filen etter å ha lest, with-funksjonen gjør dette enklere
+				\item Filoperasjoner, ''r'', ''w'', ''a''
+				\begin{itemize}
+					\item Kan bruke + for å lage nye filer
+				\end{itemize}
+				\item Det du ønsker å gjøre
+				\begin{itemize}
+				    \item Lese inn filen
+				    \item For hver linje i filen
+				    \item Preprosesser (Fjern linjeskift etc)
+				    \item Legg det i en liste? 
+				\end{itemize}
+			\end{itemize}
+		\end{column}
+		\begin{column}{.6\textwidth}
+			\begin{lstlisting}
+linjer = []
+with open(''fil.txt'', ''r'') as file:
+
+#Åpner filen med variabelen file
+    for linje in file.readlines():
+#Linje er nå hver linje i filen
+        linje = linje.strip() #Fjerner ''whitespace'' på starten og slutten
+        linje = linje.split() #Splitter ved alle mellomrom i fila (Hvis kun en verdi, per linje 
+        linjer.append(linje) #Matrise med alle verdiene
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Oppgaver - Dictionaries}
+	\begin{itemize}
+		\item<+-> Lag en dictionary: Prices, med nøklene ''banana'' =10, ''apple''=  5, ''grape''=  15, ''orange''=25 
+		
+		\item<+-> Lag en funksjon, som tar inn en dictionary, en nøkkel, og en verdi, og oppdaterer dictionarien med den nye verdien
+        \item<+-> Lag en funksjon som itererer gjennom dictionarien og printer ut hver nøkkel og verdi sammen med hverandre
+		\item<+-> Skriv inn en funksjon, som tar inn en dictionary, og et tall - og returnerer alle nøklene i verdien, som du har råd til å kjøpe
+        
+		\item<+-> Lag en funksjon, som tar inn to dictionaries: En pris, og en ''handlekurv'' som ser slik ut. {''apple'': 2}. For alle tingene du har i handlekurven, finn ut total pris på alle varene dine, ved hjelp av pris-dictionaries
+		
+
+		\item<+-> Utvid funksjonen til å også ta inn en lager dictionary, med antall varer på lager. Funksjonen skal sjekke om det er nok varer på lager, kjøpe så mange som du har sagt i handlekurven, og redusere varelageret med så mange du kjøper
+
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Gjennomgang - Filhåndtering}
+	\begin{itemize}
+		\item<+-> Skriv en funksjon som tar inn et filnavn og to tall, a og b. Programmet skal skrive til fil 100 tilfeldige tall mellom a  b, med linjeskift mellom. 
+		\begin{itemize}
+		    \item Hint: file.write(''\textbackslash n'')
+		\end{itemize}
+		\item<+-> Skriv en funksjon som legger til 20 nye tilfeldige tall i en fil
+		\item<+-> Skriv en funksjon som tar inn overnevnte fil, og putter alle tallene i en liste, og returnerer lista.
+		\item<+-> Skriv en funksjon som finner det største tallet i en slik fil. 
+		\item<+-> \textbf{Demo}: Hva skjer hvis tallene er separert 5 og 5 tall på hver linje
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Spørsmål}
+	\begin{itemize}
+		\item Spørsmål kan også sendes på mail til \href{mailto::vegahel@stud.ntnu.no}{vegahel@stud.ntnu.no}
+	\end{itemize}
+\end{frame}
+
+\end{document}

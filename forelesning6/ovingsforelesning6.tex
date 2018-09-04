@@ -1,0 +1,164 @@
+\documentclass[screen, aspectratio=169]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz, environ}
+\usepackage{listings}
+
+% Use the NTNU-temaet for beamer 
+% \usetheme[style=ntnu|simple|vertical|horizontal, 
+%     language=bm|nn|en, 
+%     smalltitle, 
+%     city=all|trondheim|alesund|gjovik]{ntnu2017}
+\usetheme[style=horizontal,language=bm]{ntnu2015}
+
+\usepackage[norsk]{babel}
+
+\input{../lstStyle.tex}
+\lstset{language=Python}
+
+\title[Short title]{Øvingsforelesning 6 i Python (TDT4110)}
+\subtitle{Lister}
+\author[O.M. Pedersen]{Ole-Magnus Pedersen}
+\institute[NTNU]{}
+\date{}
+%\date{} % To have an empty date
+
+\NewEnviron{transparent}{
+	\tikz\node[opacity=0.2,align=left,inner xsep=0]{\parbox[t]{\linewidth}{
+			\BODY
+		}};
+	}
+
+\hypersetup{
+	colorlinks,
+	urlcolor={blue!70!black}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Alternatively, special title page command to get a different background
+% \ntnutitlepage
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\item Praktisk Info
+		\begin{transparent}
+			\item Gjennomgang av Øving 5
+			\item Programmering til Øving 6
+		\end{transparent}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Praktisk info}
+	\begin{itemize}
+		\item Prosjekter i PyCharm må startes med Python 3.x
+		\item Idle på mac:
+		\begin{itemize}
+			\item Installer ny versjon av Tcl (for eksempel ActiveTcl, som omtalt \href{https://www.python.org/download/mac/tcltk/}{her})
+			\item Problemer med backslash (løsning fra \href{https://stackoverflow.com/questions/4798930/how-do-i-make-backslash-work-in-idle}{StackOverflow}):
+			\begin{itemize}
+				\item \emph{Preferences $\rightarrow$ Keys}
+				\item Under \emph{Custom Key Bindings}, finn \emph{expand-word}
+				\item Endre kombinasjonen til noe annet (f.eks. Control-Option-Key-Slash)
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+			\item Praktisk Info
+		\end{transparent}
+		\item Gjennomgang av Øving 5
+		\begin{transparent}
+			\item Programmering til Øving 6
+		\end{transparent}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+			\item Praktisk Info
+			\item Gjennomgang av Øving 5
+		\end{transparent}
+		\item Programmering til Øving 6
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Lister og tupler}
+	\begin{columns}
+		\begin{column}{.6\textwidth}
+			\begin{itemize}
+				\item Variabel som inneholder mer enn en verdi
+				\begin{itemize}
+					\item Kan inneholde alle typer variabler og konstanter, også andre lister
+					\item Datatypen til 
+				\end{itemize}
+				\item Lister er \emph{mutable} $\rightarrow$ kan endres
+				\item Tupler er \emph{immutable} $\rightarrow$ kan ikke endres
+			\end{itemize}
+		\end{column}
+		\begin{column}{.4\textwidth}
+			\begin{lstlisting}
+liste = ["a", "b", "c"]
+liste[1] = 4
+# Nå er liste = ["a", 4, "c"]
+
+tuppel = ("a", "b", "c")
+# tuppel kan ikke endres, så å skrive tuppel[1] = 4 gir en feilmelding
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Oppgave 1}
+	\begin{itemize}
+		\item<+-> Lag en liste med tallene fra 0 til 9 og skriv ut listen
+		\item<+-> Endre det siste tallet i listen til 5 og print listen igjen
+		\item<+-> Endre alle partallene i listen og print listen
+		\item<+-> Lag en funksjon som returnerer første halvdelen av en liste, og bruk den på lista vår
+		\item<+-> Lag en funksjon som kopierer alt utenom det første og siste elementet i en liste, og bruk den på lista vår
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oppgave 2: Yatzy}
+	\begin{itemize}
+		\item<+-> Lag en funksjon som lager en liste med 5 tilfeldige heltall mellom 1 og 6
+		\begin{itemize}
+			\item Hint: \lstinline|import random, random.randint(1, 6)|
+		\end{itemize}
+		\item<+-> Lag en funksjon som tar inn listen med tall og et heltall mellom 1 og 6, og returnerer antallet terninger som har den verdien
+		\item<+-> Lag en funksjon som finner den høyeste verdien med $x$ like, der $x$ er et tall fra 1 til 5
+		\item<+-> Lag en funksjon som kaster terningene seks ganger, og gir poeng for antall enere i det første kastet, toere i det andre, osv.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oppgave 3}
+	\begin{itemize}
+		\item Du skal lage et system for å holde styr på lønningene til ansatte i en bedrift
+		\item Lønningene skal lagres i en liste som inneholder lister på formen \lstinline|[lønn, navn]|
+		\begin{itemize}
+			\item Eksempel: \lstinline|lonninger = [[300000, "Ola Nordmann"], [450000, "Kari Nordmann"]]|
+		\end{itemize}
+		\item<+-> Lag en funksjon som tar inn navn, lønn, og listen med lønninger og legger til en slik indre liste i hovedlista
+		\item<+-> Lag en funksjon som printer ut lønningene i bedriften på en fin måte
+		\begin{itemize}
+			\item Ekstra: Sorter listen etter økende lønn
+		\end{itemize}
+		\item<+-> Bedriften sliter økonomisk, og må gi noen personer sparken. For å spare mest mulig penger ved å sparke færrest mulig personer har bedriften bestem at de sparker de som har høyest lønn. Lag en funksjon som tar inn listen med lønninger og summen lønnskostnadene må reduseres med. Funksjonen skal slette personene som får sparken fra lista, og returnere dem i en ny liste.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Spørsmål}
+	\begin{itemize}
+		\item Spørsmål kan også sendes på mail til \href{mailto::olemagnp@stud.ntnu.no}{olemagnp@stud.ntnu.no}
+	\end{itemize}
+\end{frame}
+
+\end{document}
