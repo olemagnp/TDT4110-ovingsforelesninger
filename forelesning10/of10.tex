@@ -1,0 +1,186 @@
+\documentclass[screen, aspectratio=169]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz, environ}
+\usepackage{listings}
+
+% Use the NTNU-temaet for beamer 
+% \usetheme[style=ntnu|simple|vertical|horizontal, 
+%     language=bm|nn|en, 
+%     smalltitle, 
+%     city=all|trondheim|alesund|gjovik]{ntnu2017}
+\usetheme[style=horizontal,language=bm]{ntnu2017}
+
+\usepackage[norsk]{babel}
+
+\input{../lstStyle.tex}
+\lstset{language=Python}
+
+\title[Short title]{Øvingsforelesning 8 i Python (TDT4110/TDT4127)}
+\subtitle{Rekursjon og repetisjon}
+\author[O.M. Pedersen]{Ole-Magnus Pedersen}
+\institute[NTNU]{}
+\date{}
+%\date{} % To have an empty date
+
+\NewEnviron{transparent}{
+	\tikz\node[opacity=0.2,align=left,inner xsep=0]{\parbox[t]{\linewidth}{
+			\BODY
+		}};
+	}
+
+\hypersetup{colorlinks,
+	urlcolor={blue!70!black}}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\item Praktisk Informasjon
+		\begin{transparent}
+		\item Programmering
+		\end{transparent}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Praktisk Informasjon}
+    \begin{itemize}
+        \item Øving 10 kan gjelde som to øvinger hvis man gjør flere oppgaver fra den
+        \begin{itemize}
+            \item Noen av oppgavene tar en del tid, så start tidlig
+        \end{itemize}
+    \end{itemize}
+    
+\end{frame}
+\iffalse
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+		\item Praktisk Informasjon
+		\end{transparent}
+		\item Gjennomgang av øving 7
+		\begin{transparent}
+		\item Programmering
+		\end{transparent}
+	\end{itemize}
+\end{frame}
+\fi
+
+\begin{frame}{Oversikt}
+	\begin{itemize}
+		\begin{transparent}
+		\item Praktisk Informasjon
+		\end{transparent}
+		\item Programmering
+	\end{itemize}
+\end{frame}
+
+% Alternatively, special title page command to get a different background
+% \ntnutitlepage
+
+\begin{frame}[fragile]{Rekursjon}
+	\begin{columns}
+		\begin{column}{.5\textwidth}
+			\begin{itemize}
+				\item En funksjon kaller seg selv med andre argumenter enn den ble kalt med selv
+				\item Viktig at man har et case der funksjonen vil returnere uten å kalle seg selv, ellers vil vi fortsette i evig tid (eller til man stopper prosessen)
+			\end{itemize}
+		\end{column}
+		\begin{column}{.5\textwidth}
+			\begin{lstlisting}
+def recursive(var):
+	if <condition for termination>:
+		return var # Can return something else, e.g. 1
+	# Here, you can do something with var
+	return var * recursive(var - 1)
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Rekursjon eller iterativ løsning}
+	\begin{columns}
+		\begin{column}{.5\textwidth}
+			\begin{itemize}
+				\item \emph{Iterative} algoritmer bruker løkker for å løse et problem
+				\item \emph{Rekursive} algoritmer bruker rekursjon
+				\item Begge metodene kan brukes til å løse de samme problemene, men effektiviteten og kompleksiteten til løsningene vil ofte ikke være lik
+			\end{itemize}
+		\end{column}
+		\begin{column}{.5\textwidth}
+			\begin{lstlisting}
+def recursive(n):
+	if n == 0:
+		return 1
+	return n * recursive(n - 1)
+
+def iterative(n):
+	prod = 1
+	for i in range(2, n+1):
+		prod *= i
+	return prod
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Oppgave 1}
+	\begin{itemize}
+		\item<+-> Binomialkoeffisienten til to tall $n$ og $k$ er gitt ved $\binom{n}{k} = \frac{n!}{k!(n-k)!}$, der $n! = n \cdot (n - 1) \cdot ... \cdot 1$. Lag en funksjon som tar inn to tall og finner binomialkoeffisienten deres.
+		\begin{itemize}
+			\item Hint: Lag en rekursiv funksjon som finner fakultetet av et tall
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Oppgave 2}
+	\begin{itemize}
+		\item Lag en funksjon som tar inn en liste som parameter. Listen kan inneholde tall eller andre lister, som igjen kan inneholde tall eller andre lister, osv.
+		\item Funksjonen skal returnere summen av alle tallene i listen, inkludert tallene i indre lister
+		\begin{itemize}
+			\item Eksempel: \lstinline|sum_list([1, 3, [5, 3], [6, [4, 2]]]) = 24|
+			\item Hint: \lstinline|if isinstance(variable, list)|
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Oppgave 3}
+	\begin{itemize}
+		\item Lag en rekursiv funksjon som tar inn en liste og returnerer den reverserte lista. Du skal ikke bruke de innebygde \lstinline|reversed()|/\lstinline|lst.reverse()| funksjonene.
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Oppgave 5}
+	\begin{itemize}
+		\item<+-> Et firma har lagret informasjon om sine ansatte i en tekstfil. Fila består av et ukjent antall linjer på formen \lstinline|"<ansatt_id> <fornavn> <etternavn> <alder> <e-post> <lønn>"|, der ansatt\_id og alder er heltall, mens lønn er et desimaltall (anta at punktum brukes i desimaltall)
+		\item<+-> Skriv en funksjon som leser inn en slik fil og returnerer en dictionary på formen \lstinline|{<ansatt_id>:[<fornavn>, <etternavn>, <alder>, <e-post>, <lønn>]}|
+		\item<+-> Firmaet vil sende ut en julemail til alle sine ansatte, og vil personliggjøre mailen ved å bruke navnet til den ansatte. Skriv en funksjon som tar inn en slik dictionary, og returnerer en to-dimensjonal liste på formen \lstinline|[[<e-post tekst>, <e-post adresse>]]|. E-post teksten kan være det du vil, men må inneholde iallefall fornavnet på den ansatte.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Eksamen Kont 2015, oppgave 4}
+	\begin{itemize}
+		\item<+-> \href{https://www.ntnu.no/wiki/display/tdt4110/Python+eksamensoppgaver?preview=/78972128/87197643/2015-08-05-tdt4110-bm-kont.pdf}{Ligger på wikien}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Repetisjon neste uke}
+	\begin{itemize}
+		\item Jeg vil gå gjennom det dere har behov for!
+		\item Svar på spørreundersøkelse om hva dere vil gå gjennom:  \href{https://goo.gl/forms/zhyXCs6ruuJFmOz83}{https://goo.gl/forms/zhyXCs6ruuJFmOz83}
+		\item Svar senest i løpet av søndag, så jeg har tid til å forberede forelesninga
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Spørsmål}
+	\begin{itemize}
+		\item Spørsmål kan også sendes til \href{mailto::olemagnp@stud.ntnu.no}{olemagnp@stud.ntnu.no}
+	\end{itemize}
+\end{frame}
+
+\end{document}

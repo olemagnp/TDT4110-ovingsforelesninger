@@ -4,15 +4,68 @@
 \usepackage{tikz, environ, siunitx, pgfpages}
 \usepackage{listings}
 
+\makeatletter
+\defbeamertemplate*{note page}{mynotes}
+{%
+	{%
+		\scriptsize
+		\usebeamerfont{note title}\usebeamercolor[fg]{note title}%
+		\ifbeamercolorempty[bg]{note title}{}{%
+			\insertvrule{.45\paperheight}{note title.bg}%
+			\vskip-.45\paperheight%
+			\nointerlineskip%
+		}%
+		\vbox{
+			\hfill\insertslideintonotes{0.45}\hskip-\Gm@rmargin\hskip0pt%
+			\vskip-0.45\paperheight%
+			\nointerlineskip
+			\begin{pgfpicture}{0cm}{0cm}{0cm}{0cm}
+				\begin{pgflowlevelscope}{\pgftransformrotate{90}}
+					{\pgftransformshift{\pgfpoint{-2cm}{0.5cm}}%
+						\pgftext[base,left]{\usebeamerfont{note date}\usebeamercolor[fg]{note date}\the\year-\ifnum\month<10\relax0\fi\the\month-\ifnum\day<10\relax0\fi\the\day}}
+				\end{pgflowlevelscope}
+		\end{pgfpicture}}
+		\nointerlineskip
+		\vbox to .45\paperheight{\vskip0.5em
+			\hbox{\insertshorttitle[width=8cm]}%
+			\setbox\beamer@tempbox=\hbox{\insertsection}%
+			\hbox{\ifdim\wd\beamer@tempbox>1pt{\hskip4pt\raise3pt\hbox{\vrule
+						width0.4pt height7pt\vrule width 9pt
+						height0.4pt}}\hskip1pt\hbox{\begin{minipage}[t]{7.5cm}\def\breakhere{}\insertsection\end{minipage}}\fi%
+			}%
+			\setbox\beamer@tempbox=\hbox{\insertsubsection}%
+			\hbox{\ifdim\wd\beamer@tempbox>1pt{\hskip8pt\raise3pt\hbox{\vrule
+						width0.4pt height7pt\vrule width 9pt
+						height0.4pt}}\hskip1pt\hbox{\begin{minipage}[t]{7.5cm}\def\breakhere{}\insertsubsection\end{minipage}}\fi%
+			}%
+			\setbox\beamer@tempbox=\hbox{\insertshortframetitle}%
+			\hbox{\ifdim\wd\beamer@tempbox>1pt{\hskip12pt\raise3pt\hbox{\vrule
+						width0.4pt height7pt\vrule width 9pt
+						height0.4pt}}\hskip1pt\hbox{\insertshortframetitle[width=4cm]}\fi%
+			}%
+			\vfil}%
+	}%
+	\ifbeamercolorempty[bg]{note page}{}{%
+		\nointerlineskip%
+		\insertvrule{.55\paperheight}{note page.bg}%
+		\vskip-.55\paperheight%
+	}%
+	\vskip.25em
+	\nointerlineskip
+	\insertnote
+}
+\makeatother
+
 % Use this for having comments for slides ("presenter view"). Requires a pdf-viewer that handles beamer notes, e.g. PDFPC (https://pdfpc.github.io/)
-% \setbeameroption{show notes on second screen=right}
+\setbeameroption{show notes on second screen=right}
+\setbeamertemplate{note page}[mynotes]
 
 % Use the NTNU-temaet for beamer 
 % \usetheme[style=ntnu|simple|vertical|horizontal, 
 %     language=bm|nn|en, 
 %     smalltitle, 
 %     city=all|trondheim|alesund|gjovik]{ntnu2017}
-\usetheme[style=horizontal,language=bm]{ntnu2015}
+\usetheme[style=horizontal,language=bm]{ntnu2017}
 
 \usepackage[norsk]{babel}
 
@@ -198,7 +251,7 @@
 \end{frame}
 
 \begin{frame}
-	\frametitle{Studentassistener/Læringsassistenter (aka. studass)}
+	\frametitle{Studentassistener/\allowbreak Læringsassistenter (aka. studass)}
 	\begin{itemize}
 		\item Studass er ikke bare på sal for å godkjenne
 		\item Planlegg gjerne å jobbe med øvingen på sal til saltider (gruppeveiledning)
@@ -236,15 +289,22 @@
 	\end{itemize}
 \end{frame}
 
-\note[itemize]{
-	\item Vis forskjellige måter å bruke python
+\begin{frame}{Hvordan kjøre Python?}
+\begin{itemize}
+	\item Kjøre en og en kommando:
 	\begin{itemize}
-		\item Interactive
-		\item Idle filer
-		\item Vanlige teksteditorer
+		\item Interactive mode
+		\item Idle eller terminal/kommandolinje
+	\end{itemize}
+	\item Skrive lengre filer med programmer og kjøre dem
+	\begin{itemize}
+		\item Måten som brukes til vanlig (bl.a. fordi man da kan lagre programmene sine)
+		\item Idle
+		\item Vanlig teksteditor og terminal/kommandolinje
 		\item PyCharm
 	\end{itemize}
-	}
+\end{itemize}
+\end{frame}
 
 \begin{frame}{Pycharm Editor}
 	\begin{itemize}
@@ -431,12 +491,12 @@ y = 2 ** x
 	\begin{columns}
 		\begin{column}{.5\textwidth}
 			\begin{itemize}
-				\item Regn ut arealet av en sylinder
+				\item Regn ut volumet av en kjegle
 				\begin{itemize}
-					\item $A=2\pi rh + 2\pi r^2$
+					\item $V=\pi r^2\frac{h}{3}$
 				\end{itemize}
 				\item Hint: Lagre en variabel \emph{pi} med verdi $3.14$
-				\item Oppgave: Regn ut areal for en sylinder med radius = 3 og høyde = 7
+				\item Oppgave: Regn ut volumet for en kjegle med radius = 3 og høyde = 7
 			\end{itemize}
 		\end{column}
 	\hspace{-20pt}\vrule\hspace{20pt}
@@ -444,7 +504,7 @@ y = 2 ** x
 			{\large\bfseries Ekstra}
 			\begin{itemize}
 				\item Utvid programmet til å bruke to ekstra variabler, en for radius og en for høyde
-				\item Regn ut areal for sylindre med:
+				\item Regn ut volumet for kjegle med:
 				\begin{enumerate}
 					\item $r=3, h=7$
 					\item $r=1, h=8$
@@ -456,15 +516,15 @@ y = 2 ** x
 \end{frame}
 
 
-\begin{frame}{Variabeltyper}
+\begin{frame}[fragile]{Variabeltyper}
 	\begin{itemize}
 		\item Variabler har en \emph{type} som bestemmer hva slags data de peker på
 	\end{itemize}
 	\begin{description}
-		\item[Integer] Heltallsverdi
-		\item[Float] Desimaltall
+		\item[Integer] Heltallsverdi (eks. 1, 23, -42)
+		\item[Float] Desimaltall (eks. 1.0, 33.12, \lstinline|math.pi|)
 		\item[Boolean] Kan ha nøyaktig to verdier, \lstinline|True| og \lstinline|False|
-		\item[String] Tekst
+		\item[String] Tekst (Eks. \lstinline|"Dette er en streng"|, \lstinline|'Dette er en tekststreng med enkeltfnutter'|)
 	\end{description}
 	\begin{itemize}
 		\item I Python trenger du ikke å si hva slags type en variabel er på forhånd, men det er viktig å være obs på det når man bruker variabelen
@@ -483,6 +543,29 @@ y = 2 ** x
 	c = 1\\
 	print(c/a)\\
 	print(c/b)
+}
+
+\begin{frame}[fragile]{Konvertere til forskjellige typer}
+	\begin{itemize}
+		\item Noen ganger har vi en variabel av en type (f.eks. \lstinline|float|), men ønsker verdien i en annen type (f.eks. \lstinline|int|)
+		\item Spesielle funksjoner for å ''caste'' variabler til en annen type:
+		\begin{itemize}
+			\item \lstinline|int(x)|
+			\item \lstinline|float(x)|
+			\item \lstinline|str(x)|
+			\item \lstinline|bool(x)|
+		\end{itemize}
+		\item Må passe på når de brukes
+		\begin{itemize}
+			\item Ikke alt kan konverteres til alt: \lstinline|int("Dette er en streng")|
+			\item \lstinline|bool("False") = True|
+			\item \lstinline|int(23.9) = 23|
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\note[itemize]{
+	\item Merk at bool(x) bare er False hvis x er 0 eller tom streng, ellers True
 }
 
 \begin{frame}[fragile]{Kommentarer}
@@ -521,7 +604,12 @@ print("Dette er ikke en kommentar")
 
 \begin{frame}[fragile]{Input}
 	\begin{itemize}
-		\item Gjør at programmet ditt spør om hvem som har laget
+		\item Funksjon for å få inn data fra brukeren:
+		\begin{itemize}
+			\item \lstinline|input("Hva heter du? ")|
+			\item Gir alltid en streng tilbake
+		\end{itemize}
+		\item Lag et program som spør om hvem som har laget det
 		\item Lagre inputten i en variabel
 		\item Print så: <Lagret navn> har laget dette programmet
 		\vspace{1em}
@@ -542,9 +630,9 @@ print("Dette er ikke en kommentar")
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Sylinder igjen}
+\begin{frame}{Kjegle igjen}
 	\begin{itemize}
-		\item Endre sylinderprogrammet fra i stad til å ta inn radius og høyde fra brukeren
+		\item Endre kjegleprogrammet fra i stad til å ta inn radius og høyde fra brukeren
 		\item Verdiene skal være av typen float
 	\end{itemize}
 \end{frame}
@@ -565,6 +653,12 @@ print("Dette er ikke en kommentar")
 			\item Skriv et program som printer Pi med 10 desimaler
 			\item Hint: \lstinline|import math, math.pi, round()|
 		}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kahoot!}
+	\begin{itemize}
+		\item \href{https://play.kahoot.it/#/k/f3efe5c8-705e-4a0e-bad0-3d4ca0fd40aa}{Kahoot}
 	\end{itemize}
 \end{frame}
 
